@@ -1,1 +1,8 @@
 clean_articles.txt
+/data
+simpleRNN/__pycache__
+simpleRNN/clean_articles.csv
+simpleRNN/temp_articles.csv
+simpleRNN/dict.pickle
+simpleRNN/train.csv
+simpleRNN/config.pyc
