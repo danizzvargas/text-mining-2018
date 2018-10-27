@@ -26,11 +26,11 @@ import nltk
 from nltk.corpus import stopwords
 import operator
 import pandas as pd
+import pickle
 from config import Config
 
 articles_temp = 'temp_articles.csv'
 
-count = 0
 stop_words = stopwords.words('english')
 termfrequencies = {}
 termToId = {}
@@ -68,12 +68,68 @@ def cleanAndCheckFrequency(text):
     article = ' '.join([word for word in text.split() if word not in stop_words])
     return article
 
+def main(args):
+  err_msg = 'Unknown function, options: train, validate'
+  if len(args) > 1:
+    func_name = args[1]
+    if func_name == 'train':
+      clean_train()
+    elif func_name == 'validate':
+      clean_validate()
+    else:
+      print(err_msg)
+  else:
+    print(err_msg)
+  return 0
 
-if __name__ == '__main__':
+def clean_validate():
+    start_time = time.time()
+
+    count = 0
+
+    pickle_in = open("termToId.pickle","rb")
+    termToId = pickle.load(pickle_in)
+
+    context = iter(ET.iterparse(Config.INPUT_FILE_DATA_VAL, events=['start','end']))
+    _, root = next(context)
+
+    print("Clean and convert")
+    with open(Config.FILE_FREQ_ID_VAL, 'w', encoding='UTF-8') as file:
+
+        article = ''
+        for event, elem in context:
+            # Etiqueta <article>.
+            if elem.tag == 'article':
+
+                if event == 'start':                        # Apertura de un artículo.
+                    article = elem.attrib['title'] + ' '
+                    id = int(elem.attrib['id'])
+                    file.write(str(id)+',')
+                else:                                       # Cierre de un artículo.
+                    article = clean(article)
+                    article = ','.join(['\'{0}\''.format(termToId[word]) for word in article.split() if word not in stop_words and word in termToId and termToId[word]<Config.TOP_WORDS])
+                    file.write('"['+article+']"' + '\n')
+                    count+=1
+                    if count >= Config.MAX_ARTICLES_VAL:
+                        break
+
+            # Cierre de etiquetas (excepto article).
+            elif event == 'end':
+                pass
+
+            # Apertura de etiquetas <p>, <q> o <a>.
+            elif elem.tag == 'p' or elem.tag == 'q' or elem.tag == 'a':
+                if elem.text != None:
+                    article = article + elem.text + ' '
+
+            root.clear()
+
+def clean_train():
     start_time = time.time()
 
     context = iter(ET.iterparse(Config.INPUT_FILE_DATA_TRAIN, events=['start','end']))
     _, root = next(context)
+    count = 0
 
     print("Clean and get frequency")
     with open(articles_temp, 'w', encoding='UTF-8') as file:
@@ -114,4 +170,13 @@ if __name__ == '__main__':
         df.set_value(index,'article',text)
 
     df.to_csv(Config.FILE_FREQ_ID,header=False,index=False)
+
+    pickle_out = open("termToId.pickle","wb")
+    pickle.dump(termToId, pickle_out)
+    pickle_out.close()
+
     print('Total time: %.3f s' % (time.time() - start_time))
+
+if __name__ == '__main__':
+  import sys
+  sys.exit(main(sys.argv))

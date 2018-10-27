@@ -6,3 +6,7 @@ simpleRNN/temp_articles.csv
 simpleRNN/dict.pickle
 simpleRNN/train.csv
 simpleRNN/config.pyc
+simpleRNN/clean_articles_val.csv
+simpleRNN/dictVal.pickle
+simpleRNN/termToId.pickle
+simpleRNN/validate.csv
