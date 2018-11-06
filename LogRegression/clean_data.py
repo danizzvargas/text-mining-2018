@@ -44,16 +44,16 @@ def main(args):
   if len(args) > 1:
     func_name = args[1]
     if func_name == 'train':
-      clean_process(Config.INPUT_FILE_DATA_TRAIN,Config.FILE_FREQ_ID)
+      clean_process(Config.INPUT_FILE_DATA_TRAIN,Config.FILE_FREQ_ID,Config.MAX_ARTICLES)
     elif func_name == 'validate':
-      clean_process(Config.INPUT_FILE_DATA_VAL,Config.FILE_FREQ_ID_VAL)
+      clean_process(Config.INPUT_FILE_DATA_VAL,Config.FILE_FREQ_ID_VAL,Config.MAX_ARTICLES_VAL)
     else:
       print(err_msg)
   else:
     print(err_msg)
   return 0
 
-def clean_process(input,output):
+def clean_process(input,output,maxA):
     start_time = time.time()
 
     count = 0
@@ -85,7 +85,7 @@ def clean_process(input,output):
                     file.write(str(countP)+ ',')
                     file.write(str(countA)+ '\n')
                     count+=1
-                    if count >= Config.MAX_ARTICLES_VAL:
+                    if count >= maxA:
                         break
 
             # Cierre de etiquetas (excepto article).
