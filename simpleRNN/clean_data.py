@@ -43,10 +43,11 @@ def clean(text):
     text = re.sub(r'[^0-9a-zA-Z\. ]', '', text)  # Quita símbolos especiales. Los puntos pueden utilizarse obtener sentencias.
     text = re.sub(r' {2,}', ' ', text)  # Quita espacios en blanco repetidos.
     text = text.strip()
+    text = text.lower()
     return text
 
 def change_term_id(text):
-    article = [str(termToId[word]) for word in text.split() if termToId[word]<Config.TOP_WORDS]
+    article = [str(termToId[word]) for word in text.split() if word in termToId]
     return article
 
 def getTermToId():
@@ -55,17 +56,18 @@ def getTermToId():
     for (term,_) in sorted_x:
         termToId[term]=count
         count+=1
+        if count >= Config.TOP_WORDS:
+            break
 
 def cleanAndCheckFrequency(text):
     text = clean(text)
     for token in text.split():
-        if token not in stop_words:
-            if token in termfrequencies:
-                termfrequencies[token] += 1
-            else:
-                termfrequencies[token] = 1
+        if token in termfrequencies:
+            termfrequencies[token] += 1
+        else:
+            termfrequencies[token] = 1
     
-    article = ' '.join([word for word in text.split() if word not in stop_words])
+    article = ' '.join([word for word in text.split()])
     return article
 
 def main(args):
@@ -107,7 +109,7 @@ def clean_validate():
                     file.write(str(id)+',')
                 else:                                       # Cierre de un artículo.
                     article = clean(article)
-                    article = ','.join(['\'{0}\''.format(termToId[word]) for word in article.split() if word not in stop_words and word in termToId and termToId[word]<Config.TOP_WORDS])
+                    article = ','.join(['\'{0}\''.format(termToId[word]) for word in article.split() if word in termToId])
                     file.write('"['+article+']"' + '\n')
                     count+=1
                     if count >= Config.MAX_ARTICLES_VAL:
@@ -172,7 +174,7 @@ def clean_train():
     df.to_csv(Config.FILE_FREQ_ID,header=False,index=False)
 
     pickle_out = open("termToId.pickle","wb")
-    pickle.dump(termToId, pickle_out)
+    pickle.dump(termToId, pickle_out,protocol=2)
     pickle_out.close()
 
     print('Total time: %.3f s' % (time.time() - start_time))

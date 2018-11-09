@@ -4,6 +4,8 @@ import pickle
 from config import Config
 
 def id_get(fileInput, fileOutput):
+	countH = 0
+	countNH = 0
 	start_time = time.time()
 
 	idToLabel = {}
@@ -22,8 +24,10 @@ def id_get(fileInput, fileOutput):
 
 				if truth == 'true':
 					idToLabel[idTag] = 1
+					countH+=1
 				else:
 					idToLabel[idTag] = 0
+					countNH+=1
 		elif event == 'end':
 			pass
 
@@ -35,6 +39,8 @@ def id_get(fileInput, fileOutput):
 
 	print("Saved")
 	print('Total time: %.3f s' % (time.time() - start_time))
+	print(countH)
+	print(countNH)
 
 def main(args):
   err_msg = 'Unknown function, options: train, validate'

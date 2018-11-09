@@ -10,6 +10,8 @@ simpleRNN/clean_articles_val.csv
 simpleRNN/dictVal.pickle
 simpleRNN/termToId.pickle
 simpleRNN/validate.csv
+simpleRNN/Mejores
+simpleRNN/glove.6B.100d.txt
 LogRegression/__pycache__
 LogRegression/clean_articles_val.csv
 LogRegression/dict.pickle
