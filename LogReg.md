@@ -10,9 +10,9 @@ Se usan las caracteristicas de:
 ## Instrucciones
 1. Verificar las configuraciones de los archivos de entrenamiento, validacion y test en config.py
 2. Correr idToLabel.py para la obtencion de un mapa de articulo->clasificacion usando los datos groudTruth
-1. python idToLabel.py train
-2. python idToLabel.py validate
-3. python idToLabel.py test
+  1. python idToLabel.py train
+  2. python idToLabel.py validate
+  3. python idToLabel.py test
 3. Correr preprocessing.py para pre-procesar los datos
 4. Correr logRegresion.py
 
