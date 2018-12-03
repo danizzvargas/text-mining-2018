@@ -47,6 +47,8 @@ def main(args):
       clean_process(Config.INPUT_FILE_DATA_TRAIN,Config.FILE_FREQ_ID,Config.MAX_ARTICLES)
     elif func_name == 'validate':
       clean_process(Config.INPUT_FILE_DATA_VAL,Config.FILE_FREQ_ID_VAL,Config.MAX_ARTICLES_VAL)
+    elif func_name == 'test':
+      clean_process(Config.INPUT_FILE_DATA_TEST,Config.FILE_FREQ_ID_TEST,Config.MAX_ARTICLES_VAL)
     else:
       print(err_msg)
   else:

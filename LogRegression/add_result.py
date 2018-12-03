@@ -33,6 +33,8 @@ def main(args):
       addLabel(Config.FILE_FREQ_ID,"dict.pickle",Config.FILE_TRAIN)
     elif func_name == 'validate':
       addLabel(Config.FILE_FREQ_ID_VAL,"dictVal.pickle",Config.FILE_VAL)
+    elif func_name == 'test':
+      addLabel(Config.FILE_FREQ_ID_TEST,"dictTest.pickle",Config.FILE_TEST)
     else:
       print(err_msg)
   else:

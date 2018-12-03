@@ -44,6 +44,8 @@ def main(args):
       id_get(Config.INPUT_FILE_DATA_TRAIN_GROUDTRUTH,"dict.pickle")
     elif func_name == 'validate':
       id_get(Config.INPUT_FILE_DATA_VAL_GROUDTRUTH,"dictVal.pickle")
+    elif func_name == 'test':
+      id_get(Config.INPUT_FILE_DATA_TEST_GROUDTRUTH,"dictTest.pickle")
     else:
       print(err_msg)
   else:

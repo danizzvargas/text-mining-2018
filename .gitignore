@@ -21,3 +21,7 @@ LogRegression/termToId.pickle
 LogRegression/train.csv
 LogRegression/validate.csv
 LogRegression/clean_articles.csv
+LogRegression/config.pyc
+LogRegression/clean_articles_test.csv
+LogRegression/dictTest.pickle
+LogRegression/test.csv

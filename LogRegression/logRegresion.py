@@ -40,6 +40,16 @@ print('Validate transform')
 articleTransform =tfidf_vect.transform(df[:,1])
 
 df[:,2:4] = df[:,2:4].astype('int')
+X_validate = add_feature(articleTransform, transformer.transform(df[:,2:4]))
+y_validate= df[:,4].astype('int')
+
+print('Read Test')
+df = pd.read_csv('test.csv',delimiter=',',names=['id', 'article','numP','numA','hyperpartisan'])
+df = df.values
+print('Validate transform')
+articleTransform =tfidf_vect.transform(df[:,1])
+
+df[:,2:4] = df[:,2:4].astype('int')
 X_test = add_feature(articleTransform, transformer.transform(df[:,2:4]))
 y_test= df[:,4].astype('int')
 
@@ -47,7 +57,14 @@ model = LogisticRegression()
 print('LogisticRegression fit')
 model.fit(X_train,y_train)
 
-print('LogisticRegression predict')
+print('LogisticRegression predict on validate')
+predictions = model.predict(X_validate)
+print('Accuracy {}'.format(accuracy_score(y_validate,predictions)))
+print('Precision {}'.format(precision_score(y_validate,predictions)))
+print('Recall {}'.format(recall_score(y_validate,predictions)))
+print('F1 {}'.format(f1_score(y_validate,predictions)))
+
+print('LogisticRegression predict on validate (manual data)')
 predictions = model.predict(X_test)
 print('Accuracy {}'.format(accuracy_score(y_test,predictions)))
 print('Precision {}'.format(precision_score(y_test,predictions)))
