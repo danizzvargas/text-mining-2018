@@ -15,6 +15,6 @@ INPUT_FILE_DATA_VAL_GROUDTRUTH = 'data/ground-truth-validation-20180831.xml/grou
 ```
 ## Modelos
 1. Regresion Logistica : [Instrucciones](LogReg.md)
-2. GRU con Glove Embeddings
+2. GRU con Glove Embeddings [Instrucciones](GruGlove2.md)
 3. GRU con Word2Vec
 4. CNN
