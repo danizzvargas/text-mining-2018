@@ -39,3 +39,7 @@ En validacion de datos manuales:
 | Accuracy | Precision | Recall  | F1  |
 |----------|-----------|---------|-----|
 |0.5379|0.44206|0.9621|0.6058|
+
+![Loss](simpleRNN/lossGruGlove.png)
+![Acc](simpleRNN/accGruGlove.png)
+
