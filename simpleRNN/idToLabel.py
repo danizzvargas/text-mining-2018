@@ -43,13 +43,15 @@ def id_get(fileInput, fileOutput):
 	print(countNH)
 
 def main(args):
-  err_msg = 'Unknown function, options: train, validate'
+  err_msg = 'Unknown function, options: train, validate, test'
   if len(args) > 1:
     func_name = args[1]
     if func_name == 'train':
       id_get(Config.INPUT_FILE_DATA_TRAIN_GROUDTRUTH,"dict.pickle")
     elif func_name == 'validate':
       id_get(Config.INPUT_FILE_DATA_VAL_GROUDTRUTH,"dictVal.pickle")
+    elif func_name == 'test':
+      id_get(Config.INPUT_FILE_DATA_TEST_GROUDTRUTH,"dictTest.pickle")
     else:
       print(err_msg)
   else:
