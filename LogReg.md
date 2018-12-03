@@ -8,13 +8,14 @@ Se usan las caracteristicas de:
 3. Numero de links
 
 ## Instrucciones
-1. Verificar las configuraciones de los archivos de entrenamiento, validacion y test en config.py
-2. Correr idToLabel.py para la obtencion de un mapa de articulo->clasificacion usando los datos groudTruth
+1. Ir a la carpeta de LogRegression
+2. Verificar las configuraciones de los archivos de entrenamiento, validacion y test en config.py
+3. Correr idToLabel.py para la obtencion de un mapa de articulo->clasificacion usando los datos groudTruth
   * python idToLabel.py train
   * python idToLabel.py validate
   * python idToLabel.py test
-3. Correr preprocessing.py para pre-procesar los datos
-4. Correr logRegresion.py
+4. Correr preprocessing.py para pre-procesar los datos
+5. Correr logRegresion.py
 
 ## Resultados
 Entrenamiento 200,000 datos
