@@ -32,13 +32,19 @@ En validacion de datos por publisher:
 
 | Accuracy | Precision | Recall  | F1  |
 |----------|-----------|---------|-----|
-|0.532825|0.51937|0.8795|0.6530|
+|0.5591|0.543|0.7439|0.627|
 
 En validacion de datos manuales:
 
 | Accuracy | Precision | Recall  | F1  |
 |----------|-----------|---------|-----|
-|0.5379|0.44206|0.9621|0.6058|
+|0.553|0.442|0.8067|0.5714|
+
+Results in test Data
+Accuracy 0.553488372093
+Precision 0.442396313364
+Recall 0.806722689076
+F1 0.571428571429
 
 ![Loss](simpleRNN/lossGruGlove.png)
 ![Acc](simpleRNN/accGruGlove.png)
