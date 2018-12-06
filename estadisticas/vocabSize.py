@@ -22,7 +22,7 @@ def clean(text):
 
 start_time = time.time()
 
-context = iter(ET.iterparse(Config.INPUT_FILE_DATA_VAL, events=['start','end']))
+context = iter(ET.iterparse(Config.INPUT_FILE_DATA_TEST, events=['start','end']))
 _, root = next(context)
 
 dictPal={}
@@ -48,4 +48,4 @@ for event, elem in context:
 			article = article + elem.text + ' '
 
 	root.clear()
-print(len(dictPal))
+print('Numero de palabras : {}'.format(len(dictPal)))

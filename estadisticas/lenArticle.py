@@ -22,7 +22,7 @@ def clean(text):
 
 start_time = time.time()
 
-context = iter(ET.iterparse(Config.INPUT_FILE_DATA_TRAIN, events=['start','end']))
+context = iter(ET.iterparse(Config.INPUT_FILE_DATA_VAL, events=['start','end']))
 _, root = next(context)
 
 article = ''
@@ -52,8 +52,8 @@ for event, elem in context:
 			article = article + elem.text + ' '
 
 	root.clear()
-print(sumSize/numArt)
-print(numArt)
+print("Promedio de palabras por articulo : {}".format(sumSize/numArt))
+print("Numero de articulos : {}".format(numArt))
 plt.hist(lista, bins='auto')  # arguments are passed to np.histogram
 plt.title("Histogram with 'auto' bins")
 plt.show()
