@@ -25,3 +25,15 @@ LogRegression/config.pyc
 LogRegression/clean_articles_test.csv
 LogRegression/dictTest.pickle
 LogRegression/test.csv
+CNN/test.csv
+CNN/validate.csv
+CNN/train.csv
+CNN/clean_articles_test.csv
+CNN/clean_articles_val.csv
+CNN/termToId.pickle
+CNN/clean_articles.csv
+CNN/temp_articles.csv
+CNN/dictVal.pickle
+CNN/dictTest.pickle
+CNN/dict.pickle
+CNN/glove.6B.100d.txt
