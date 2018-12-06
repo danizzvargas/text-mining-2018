@@ -14,6 +14,12 @@ from matplotlib import pyplot
 import pickle
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from keras import regularizers
+import os
+
+# Deshabilitar GPU
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
 
 # fix random seed for reproducibility
 np.random.seed(7)
@@ -29,6 +35,14 @@ print(len(X_train))
 print(y_train.shape)
 
 df = pd.read_csv('validate.csv',delimiter=',',names=['id', 'article','hyperpartisan'])
+df['article'] = df['article'].apply(literal_eval)
+
+df = df.values
+X_validate = df[:,1]
+X_validate = [map(int, article) for article in X_validate]
+y_validate= df[:,2].astype('int')
+
+df = pd.read_csv('test.csv',delimiter=',',names=['id', 'article','hyperpartisan'])
 df['article'] = df['article'].apply(literal_eval)
 
 df = df.values
@@ -55,26 +69,32 @@ for term,idTerm in termToId.iteritems():
 		embedding_matrix[idTerm] = embeddings_index[idTerm]
 
 X_train = sequence.pad_sequences(X_train, maxlen=Config.MAX_REVIEW_LEN)
+X_validate = sequence.pad_sequences(X_validate, maxlen=Config.MAX_REVIEW_LEN)
 X_test = sequence.pad_sequences(X_test, maxlen=Config.MAX_REVIEW_LEN)
 # create the model
 model = Sequential()
 model.add(Embedding(Config.TOP_WORDS, Config.EMBEDDING_VECTOR_LEN, weights=[embedding_matrix], trainable=False))
-model.add(GRU(20,dropout=0.2, recurrent_dropout=0.2, activation=None, kernel_regularizer=regularizers.l2(0.05),
-	recurrent_regularizer=regularizers.l2(0.05)))
+model.add(GRU(10,kernel_regularizer=regularizers.l2(0.05),recurrent_regularizer=regularizers.l2(0.05)))
 model.add(BatchNormalization())
 model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 print(model.summary())
-history = model.fit(X_train, y_train, epochs=10,shuffle=True, batch_size=64,validation_data=(X_test, y_test))
+history = model.fit(X_train, y_train, epochs=4,shuffle=True, batch_size=64,validation_data=(X_validate, y_validate))
+
+predictions = model.predict(X_validate).round().astype('int')
+print('\nResults in validation Data')
+print('Accuracy {}'.format(accuracy_score(y_validate,predictions)))
+print('Precision {}'.format(precision_score(y_validate,predictions)))
+print('Recall {}'.format(recall_score(y_validate,predictions)))
+print('F1 {}'.format(f1_score(y_validate,predictions)))
 
 predictions = model.predict(X_test).round().astype('int')
-print('Accuracy {}'.format(accuracy_score(y_test,predictions.round())))
-print('Precision {}'.format(precision_score(y_test,predictions.round())))
-print('Recall {}'.format(recall_score(y_test,predictions.round())))
-print('F1 {}'.format(f1_score(y_test,predictions.round())))
-# Final evaluation of the model
-#scores = model.evaluate(X_test, y_test, verbose=0)
-#print("Accuracy: %.2f%%" % (scores[1]*100))
+print('\nResults in test Data')
+print('Accuracy {}'.format(accuracy_score(y_test,predictions)))
+print('Precision {}'.format(precision_score(y_test,predictions)))
+print('Recall {}'.format(recall_score(y_test,predictions)))
+print('F1 {}'.format(f1_score(y_test,predictions)))
+
 pyplot.plot(history.history['loss'])
 pyplot.plot(history.history['val_loss'])
 pyplot.title('model train vs validation loss')
